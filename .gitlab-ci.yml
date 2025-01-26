@@ -1,0 +1,54 @@
+image: gcc
+
+default:
+  tags:
+    - any
+
+stages:
+  - test
+  - style_check
+  - send_notification
+
+test:
+  stage: test
+  script:
+    - echo "Build and running tests..."
+    - cd src
+    - make tests
+    - touch pipelines.sh
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      -  pipelines.sh
+    expire_in: 5 minutes
+  after_script:
+  - bash ./save_status.sh
+
+style_check:
+  stage: style_check
+  script:
+    - echo "Checking style..."
+    - cd src
+    - make style_check
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - pipelines.sh
+    expire_in: 5 minutes
+  after_script:
+  - bash ./save_status.sh
+
+send_notification:
+  stage: send_notification
+  script:
+    - echo "Sending notification..."
+    - bash ./tg_notification.sh
+  artifacts:
+    when: always
+    paths:
+      - pipelines.sh
+    expire_in: 2 minutes
+  dependencies:
+    - style_check
