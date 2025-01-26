@@ -50,7 +50,7 @@ Implementation of app for viewing 3D wireframe models in C++ and Qt in the objec
 - Language standard: C++17.
 - Build with `Makefile` containing standard targets (`all`, `install`, `uninstall`, `clean`, `tests`, etc.).
 - Code follows Google Style guidelines.
-- Supported GUI librarie - Qt.
+- Supported GUI library - Qt.
 
 ## Installation
 
